@@ -1,4 +1,5 @@
 import logging
+import asyncio
 from dotenv import load_dotenv
 import os
 from aiogram import Bot, Dispatcher, types
@@ -8,6 +9,7 @@ import google.generativeai as palm
 
 async def main():
     # Initialize bot and dispatcher
+    TOKEN = str(os.getenv("TOKEN"))
     bot = Bot(token=TOKEN)
     dispatcher = Dispatcher(bot)
     await start_polling(dispatcher)
@@ -23,11 +25,10 @@ async def main():
 
 
     load_dotenv()
-    palm.configure(api_key=os.getenv("BARD_TOKEN")) 
+    palm.configure(api_key="AIzaSyCkuMp3Dp2ArsvDR-DuxlZbFmvDQFFuB7o") 
 
     reference = Reference()
 
-    TOKEN = os.getenv("TOKEN")
 
     #configure logging
     logging.basicConfig(Level=logging.INFO)
@@ -91,5 +92,5 @@ async def main():
 
 
 
-if _name_ == '_main_':
+if __name__=='__main__':
     asyncio.run(main())
