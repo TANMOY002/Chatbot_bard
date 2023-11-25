@@ -8,13 +8,15 @@ import google.generativeai as palm
 from aiogram.filters import Command
 from aiogram.enums import ParseMode
 from aiogram.utils.markdown import hbold
+from aiogram.utils.chat_action import ChatActionSender
+import telegram
+
 
 # Initialize bot and dispatcher
 TOKEN = "6968347125:AAFdH3osAcsCH-4wFboKMbDwV-zoxgkpwY4"
 dispatcher = Dispatcher()
 
-
-
+bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
 async def main() -> None:
     # Initialize Bot instance with a default parse mode which will be passed to all API calls
     bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
@@ -37,13 +39,6 @@ palm.configure(api_key="AIzaSyDMdCuMazDiRgnw3xVas_R-z_1wMcwQYNQ")
 reference = Reference()
 
 
-
-def clear_past():
-    """A function to clear the previous conversation and context.
-    """
-    reference.response = ""
-
-
 @dispatcher.message(Command('start'))
 async def welcome(message: types.Message):
     """
@@ -56,22 +51,12 @@ async def welcome(message: types.Message):
     """
     await message.reply(f"Hello, {hbold(message.from_user.full_name)}! "+welcome_command)
 
-
-# @dispatcher.message()
-# async def chatgpt(message: types.Message):
-#     """
-#     A handler to process the user's input and generate a response using the chatGPT API.
-#     """
-#     print(f">>> USER: \n\t{message.text}")
-#     response = response.reply(message.text)
-#     reference.response = str(response.last)
-#     print(f">>> Answer: \n\t{reference.response}")
-#     await message.answer(reference.response)
-
-
 class ChatState:
     def __init__(self):
         self.messages = []
+    def clear(self):
+        self.messages = []
+
 
 # Assuming `reference` is defined before the function
 reference = ChatState()
@@ -81,7 +66,7 @@ async def clear(message: types.Message):
     """
     A handler to clear the previous conversation and context.
     """
-    clear_past()
+    reference.clear()
     await message.reply("I've cleared the past conversation and context.")
 
 @dispatcher.message()
@@ -92,16 +77,13 @@ async def chatgpt(message: types.Message):
 
     # Add the user's message to the messages list
     reference.messages.append(message.text)
-
     # Use all the messages in the conversation so far
     response = palm.chat(messages=reference.messages).reply(message.text)
     
     # Update the reference.response
     reference.response = str(response.last)
     print(f">>> Answer: \n\t{reference.response}")
-
     await message.answer(reference.response)
-
 
 
 if __name__ == "__main__":
