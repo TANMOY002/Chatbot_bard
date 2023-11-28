@@ -9,12 +9,13 @@ from aiogram.filters import Command
 from aiogram.enums import ParseMode
 from aiogram.utils.markdown import hbold
 from aiogram.utils.chat_action import ChatActionSender
-# import telegram
+import telegram
 import time
 
+load_dotenv()
 
 # Initialize bot and dispatcher
-TOKEN = "6968347125:AAFdH3osAcsCH-4wFboKMbDwV-zoxgkpwY4"
+TOKEN = os.getenv("TOKEN")
 dispatcher = Dispatcher()
 
 bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
@@ -33,9 +34,7 @@ class Reference:
         self.response = ""
 
 
-
-load_dotenv()
-palm.configure(api_key="AIzaSyDMdCuMazDiRgnw3xVas_R-z_1wMcwQYNQ") 
+palm.configure(api_key=os.getenv("BARD_TOKEN")) 
 
 reference = Reference()
 
@@ -75,7 +74,7 @@ async def clear(message: types.Message):
 @dispatcher.message()
 async def chatgpt(message: types.Message):
     global reference
-    # await bot.send_chat_action(chat_id=message.chat.id, action=telegram.constants.ChatAction.TYPING)
+    await bot.send_chat_action(chat_id=message.chat.id, action=telegram.constants.ChatAction.TYPING)
 
     print(f">>> USER: \n\t{message.text}")
 
