@@ -10,6 +10,7 @@ from aiogram.enums import ParseMode
 from aiogram.utils.markdown import hbold
 from aiogram.utils.chat_action import ChatActionSender
 import telegram
+import time
 
 
 # Initialize bot and dispatcher
@@ -48,6 +49,8 @@ async def welcome(message: types.Message):
     I'm Your Knowledge Partner Chatbot created by Tanmoy Chandra! Please follow these commands - 
     /start - to start the conversation
     /clear - to clear the past conversation and context
+    For more info on how to ask questions/ prompt for best use of this bot, 
+    follow the link - https://developers.generativeai.google/guide/prompt_best_practices
     """
     await message.reply(f"Hello, {hbold(message.from_user.full_name)}! "+welcome_command)
 
@@ -72,6 +75,7 @@ async def clear(message: types.Message):
 @dispatcher.message()
 async def chatgpt(message: types.Message):
     global reference
+    await bot.send_chat_action(chat_id=message.chat.id, action=telegram.constants.ChatAction.TYPING)
 
     print(f">>> USER: \n\t{message.text}")
 
@@ -79,7 +83,7 @@ async def chatgpt(message: types.Message):
     reference.messages.append(message.text)
     # Use all the messages in the conversation so far
     response = palm.chat(messages=reference.messages).reply(message.text)
-    
+
     # Update the reference.response
     reference.response = str(response.last)
     print(f">>> Answer: \n\t{reference.response}")
