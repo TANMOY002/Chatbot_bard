@@ -9,7 +9,7 @@ from aiogram.filters import Command
 from aiogram.enums import ParseMode
 from aiogram.utils.markdown import hbold
 from aiogram.utils.chat_action import ChatActionSender
-import telegram
+# import telegram
 import time
 
 
@@ -75,7 +75,7 @@ async def clear(message: types.Message):
 @dispatcher.message()
 async def chatgpt(message: types.Message):
     global reference
-    await bot.send_chat_action(chat_id=message.chat.id, action=telegram.constants.ChatAction.TYPING)
+    # await bot.send_chat_action(chat_id=message.chat.id, action=telegram.constants.ChatAction.TYPING)
 
     print(f">>> USER: \n\t{message.text}")
 

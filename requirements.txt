@@ -1,3 +1,4 @@
-python-dotenv
-aiogram
-google.generativeai
+# python-dotenv
+# aiogram
+# google.generativeai
+telegram
