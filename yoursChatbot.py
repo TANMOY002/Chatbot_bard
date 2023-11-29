@@ -44,14 +44,8 @@ async def welcome(message: types.Message):
     """
     This handler receives messages with `/start` or  `/help `command
     """
-    welcome_command = """
-    I'm Your Knowledge Partner Chatbot created by Tanmoy Chandra! Please follow these commands - 
-    /start - to start the conversation
-    /clear - to clear the past conversation and context
-    For more info on how to ask questions/ prompt for best use of this bot, 
-    follow the link - https://developers.generativeai.google/guide/prompt_best_practices
-    """
-    await message.reply(f"Hello, {hbold(message.from_user.full_name)}! "+welcome_command)
+    welcome_command = """\n\nI'm Your Knowledge Partner Chatbot created by Tanmoy Chandra! Please follow these commands -\n/start - to start the conversation\n/clear - to clear the past conversation and context.\n\nFor more info on how to ask questions/ prompt for best use of this bot, follow the link - https://developers.generativeai.google/guide/prompt_best_practices"""
+    await message.reply(f"Hello, {hbold(message.from_user.full_name)}!"+welcome_command)
 
 class ChatState:
     def __init__(self):
